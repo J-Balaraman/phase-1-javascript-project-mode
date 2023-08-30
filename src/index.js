@@ -34,7 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
             updateHolidayInfo();
         });
     })
-    .catch(error => {
+
+    
+
+        .catch(error => {
         console.error('Fetch error:', error);
     });
 });
