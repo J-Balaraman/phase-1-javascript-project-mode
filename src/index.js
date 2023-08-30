@@ -1,34 +1,40 @@
+let holidayCounter = 0;
+
 document.addEventListener('DOMContentLoaded', () => {
     fetch(`https://www.gov.uk/bank-holidays.json`)
     .then(resp => resp.json())
-    .then((data) => {
-        const holiday = data['england-and-wales'].events[0];
+    .then(data => {
+        const holidays = data['england-and-wales'].events;
 
-        const currentHolidayList = document.getElementById('current-holiday');
+        function updateHolidayInfo() {
+            const holiday = holidays[holidayCounter];
+            document.getElementById('holiday').textContent = `Holiday: ${holiday.title}`;
+            document.getElementById('date').textContent = `Date: ${holiday.date}`;
+            document.getElementById('buntingStatus').textContent = `Bunting Status: ${holiday.bunting ? 'Yes' : 'No'}`;
+            document.getElementById('notes').textContent = `Notes: ${holiday.notes}`;
+        }
 
-        const holidayListItem = document.createElement('li');
-        holidayListItem.textContent = `Holiday: ${holiday.title}`;
-        holidayListItem.id = `holiday`
+        updateHolidayInfo();
 
-        const dateListItem = document.createElement('li');
-        dateListItem.textContent = `Date: ${holiday.date}`;
-        dateListItem.id = `date`
+        const nextButton = document.getElementById('nextHoliday');
+        nextButton.addEventListener('click', () => {
+            holidayCounter++;
+            if (holidayCounter >= holidays.length) {
+                holidayCounter = holidays.length - 1;
+            }
+            updateHolidayInfo();
+        });
 
-        const buntingStatusListItem = document.createElement('li');
-        buntingStatusListItem.textContent = `Bunting Status: ${holiday.bunting ? 'Yes' : 'No'}`;
-        buntingStatusListItem.id = `buntingStatus`
-
-        const notesListItem = document.createElement('li');
-        notesListItem.textContent = `Notes: ${holiday.notes}`;
-        notesListItem.id = `notes`
-
-        currentHolidayList.appendChild(holidayListItem);
-        currentHolidayList.appendChild(dateListItem);
-        currentHolidayList.appendChild(buntingStatusListItem);
-        currentHolidayList.appendChild(notesListItem);
+        const prevButton = document.getElementById('previousHoliday');
+        prevButton.addEventListener('click', () => {
+            holidayCounter--;
+            if (holidayCounter < 0) {
+                holidayCounter = 0;
+            }
+            updateHolidayInfo();
+        });
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
     });
 });
-
-//button.addEventListener('click', update the card)
-
-//submitButton.addEventListener('submit', add a new comment in the seperate comments section)
