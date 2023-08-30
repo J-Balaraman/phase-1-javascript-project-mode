@@ -35,9 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })
 
-    
-
-        .catch(error => {
+            .catch(error => {
         console.error('Fetch error:', error);
     });
 });
