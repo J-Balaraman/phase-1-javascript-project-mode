@@ -1,41 +1,73 @@
-let holidayCounter = 0;
-
 document.addEventListener('DOMContentLoaded', () => {
-    fetch(`https://www.gov.uk/bank-holidays.json`)
-    .then(resp => resp.json())
-    .then(data => {
-        const holidays = data['england-and-wales'].events;
+    const holidayElement = document.getElementById('holiday');
+    const dateElement = document.getElementById('date');
+    const buntingStatusElement = document.getElementById('buntingStatus');
+    const notesElement = document.getElementById('notes');
+    const commentForm = document.getElementById('commentForm');
+    const commentInput = document.getElementById('comments');
+    const commentSection = document.getElementById('commentSection');
 
-        function updateHolidayInfo() {
-            const holiday = holidays[holidayCounter];
-            document.getElementById('holiday').textContent = `Holiday: ${holiday.title}`;
-            document.getElementById('date').textContent = `Date: ${holiday.date}`;
-            document.getElementById('buntingStatus').textContent = `Bunting Status: ${holiday.bunting ? 'Yes' : 'No'}`;
-            document.getElementById('notes').textContent = `Notes: ${holiday.notes}`;
+    let holidays;
+    let holidayCounter = 0;
+
+    function updateHolidayInfo(holidayIndex) {
+        const holiday = holidays[holidayIndex];
+        holidayElement.textContent = `Holiday: ${holiday.title}`;
+        dateElement.textContent = `Date: ${holiday.date}`;
+        buntingStatusElement.textContent = `Bunting Status: ${holiday.bunting ? 'Yes' : 'No'}`;
+        notesElement.textContent = `Notes: ${holiday.notes}`;
+    }
+
+    function updateCurrentHoliday() {
+        updateHolidayInfo(holidayCounter);
+    }
+
+    const nextButton = document.getElementById('nextHoliday');
+    nextButton.addEventListener('click', () => {
+        holidayCounter++;
+        if (holidayCounter >= holidays.length) {
+            holidayCounter = holidays.length - 1;
         }
-
-        updateHolidayInfo();
-
-        const nextButton = document.getElementById('nextHoliday');
-        nextButton.addEventListener('click', () => {
-            holidayCounter++;
-            if (holidayCounter >= holidays.length) {
-                holidayCounter = holidays.length - 1;
-            }
-            updateHolidayInfo();
-        });
-
-        const prevButton = document.getElementById('previousHoliday');
-        prevButton.addEventListener('click', () => {
-            holidayCounter--;
-            if (holidayCounter < 0) {
-                holidayCounter = 0;
-            }
-            updateHolidayInfo();
-        });
-    })
-
-            .catch(error => {
-        console.error('Fetch error:', error);
+        updateCurrentHoliday();
     });
+
+    const prevButton = document.getElementById('previousHoliday');
+    prevButton.addEventListener('click', () => {
+        holidayCounter--;
+        if (holidayCounter < 0) {
+            holidayCounter = 0;
+        }
+        updateCurrentHoliday();
+    });
+
+    commentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const commentText = commentInput.value.trim();
+
+        if (commentText !== '') {
+            const currentHoliday = holidayElement.textContent;
+            const currentDate = dateElement.textContent;
+            const comment = `${currentHoliday}, ${currentDate} --- Comment: ${commentText}`;
+
+            const commentElement = document.createElement('div');
+            commentElement.textContent = comment;
+            commentSection.appendChild(commentElement);
+
+            commentInput.value = '';
+        }
+    });
+
+    fetch(`https://www.gov.uk/bank-holidays.json`)
+        .then(resp => resp.json())
+        .then(data => {
+            holidays = data['england-and-wales'].events;
+            updateCurrentHoliday();
+
+            holidays.forEach((holiday, index) => {
+                console.log(`Holiday ${index + 1}: ${holiday.title}`);
+            });
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
 });
