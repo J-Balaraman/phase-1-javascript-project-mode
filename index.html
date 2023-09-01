@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>England and Wales Bank Holidays Through the Years</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,28 +15,39 @@
             justify-content: center;
             height: 100vh;
         }
+
         h1 {
             text-align: center;
             background-color: #0074d9;
             color: #fff;
             padding: 20px;
             margin-top: 0;
-            border-radius: 5px;
         }
+
         ul {
             list-style-type: none;
             padding: 0;
         }
+
         li {
             margin-bottom: 10px;
         }
+
         #current-holiday {
             background-color: #fff;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            text-align: center;
+            text-align: center; /* Center the text within the container */
         }
+
+        /* Create a flex container for the buttons */
+        #buttonContainer {
+            display: flex;
+            justify-content: space-between; /* Space evenly between buttons */
+            margin-top: 20px;
+        }
+
         button {
             background-color: #0074d9;
             color: #fff;
@@ -45,35 +56,55 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        #previousHoliday {
+            margin-right: 7px;
+        }
+
+        #nextHoliday {
+            margin-left: 7px;
+        }
+
         button:hover {
             background-color: #0056b3;
         }
+
         #commentForm {
             margin-top: 20px;
         }
+
         #comments {
-            border: none;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            display: inline-block;
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
+
         #submitButton {
-            display: inline-block;
-            vertical-align: top;
+            margin-top: 7px;
+            background-color: #0074d9;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
+
         #submitButton:hover {
             background-color: #0056b3;
         }
+
         #commentSection {
             margin-top: 20px;
             background-color: #fff;
             padding: 20px;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);/**/
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
-    <h1>England and Whales Bank Holidays Through the Years</h1>
+    <h1>England and Wales Bank Holidays Through the Years</h1>
 
     <ul id="current-holiday">
         <li id="holiday"></li>
@@ -82,8 +113,11 @@
         <li id="notes"></li>
     </ul>
 
-    <button id='previousHoliday' class="favorite styled" type="button">Previous Holiday</button>
-    <button id='nextHoliday' class="favorite styled" type="button">Next Holiday</button>
+    <!-- Create a container for the buttons -->
+    <div id="buttonContainer">
+        <button id='previousHoliday' class="favorite styled" type="button">Previous Holiday</button>
+        <button id='nextHoliday' class="favorite styled" type="button">Next Holiday</button>
+    </div>
     
     <div>
         <form id="commentForm">
