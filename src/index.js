@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const holiday = holidays[holidayIndex];
         holidayElement.textContent = `Holiday: ${holiday.title}`;
         dateElement.textContent = `Date: ${holiday.date}`;
-        buntingStatusElement.textContent = `Bunting Status: ${holiday.bunting ? 'Yes' : 'No'}`;
+        buntingStatusElement.textContent = `Bunting Display: ${holiday.bunting ? 'Yes' : 'No'}`;
         notesElement.textContent = `Notes: ${holiday.notes}`;
     }
 
