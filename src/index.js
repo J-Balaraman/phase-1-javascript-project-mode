@@ -58,16 +58,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     fetch(`https://www.gov.uk/bank-holidays.json`)
-        .then(resp => resp.json())
-        .then(data => {
-            holidays = data['england-and-wales'].events;
-            updateCurrentHoliday();
+    .then(resp => resp.json())
+    .then(data => {
+        holidays = data['england-and-wales'].events;
+        updateCurrentHoliday();
 
-            holidays.forEach((holiday, index) => {
-                console.log(`Holiday ${index + 1}: ${holiday.title}`);
-            });
-        })
-        .catch(error => {
-            console.error('Fetch error:', error);
+        const allHolidaysList = document.getElementById('allHolidaysList');
+        holidays.forEach((holiday, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `Holiday ${index + 1}: ${holiday.title}`;
+            listItem.classList.add('holiday-list-item');
+            allHolidaysList.appendChild(listItem);
         });
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+    });
 });
